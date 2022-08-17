@@ -12,7 +12,7 @@ jobs:
         run: ci/build-app.sh
 
       - name: test
-        run: ci/unit-test-app.s
+        run: ci/unit-test-app.sh
           
       - name: upload repo
         uses: actions/upload-artifact@v2
