@@ -12,7 +12,7 @@ env:
   GIT_COMMIT: ${{ github.sha }}
 jobs:
   Clone-down:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     container: gradle:6-jdk11
     steps:
       - name: Clone-down
@@ -24,7 +24,7 @@ jobs:
           name: code
           path: .       
   build:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     needs: Clone-down
     container: gradle:6-jdk11
     steps:
@@ -53,7 +53,7 @@ jobs:
           path: app/build/libs/app-0.1-all.jar 
 
   Docker-image:
-    runs-on: [self-hosted]
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: download
