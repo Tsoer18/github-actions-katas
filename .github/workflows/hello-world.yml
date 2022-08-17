@@ -1,5 +1,9 @@
 name: JAVA CI
 on: push
+env:
+  docker_username: ${{ secrets.DOCKER_USERNAME }}
+  docker_password: ${{ secrets.DOCKER_PASSWORD }}
+  GIT_COMMIT: ${{}}
 jobs:
   Clone-down:
     runs-on: ubuntu-latest
@@ -35,3 +39,25 @@ jobs:
         with:
           name: code
           path: .
+
+      - name: upload jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-all
+          path: app/build/libs/app-0.1-all.jar 
+
+  Docker-image:
+    runs-on: ubuntu:latest
+    needs: build
+    steps:
+      - name: download
+        uses: action/download-artifact@v2
+        with:
+          name: code
+          path: .
+      - name: docker build
+        run: chmod -x ci/build-docker.sh && ci/build-docker.sh
+      - name: docker push
+        run: chmod -x ci/push-docker.sh && ci/push-docker.sh
+    
+
